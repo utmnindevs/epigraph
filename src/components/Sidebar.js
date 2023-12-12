@@ -1,7 +1,12 @@
 import React from 'react';
 
+import { useStore } from 'reactflow';
+
+const transformSelector = (state) => state.transform;
 
 export default () => {
+  const transform = useStore(transformSelector);
+
   const onDragStart = (event, nodeType, compartment_name) => {
     var data_of_node = {
       type: nodeType,
@@ -13,7 +18,7 @@ export default () => {
     event.dataTransfer.effectAllowed = 'move';
   };
 
-  var compartment_name = "not a name";
+  var compartment_name = "Безымянный";
 
   const onEnterPressed = (event) => {
     if (event.key === 'Enter') {
@@ -24,6 +29,10 @@ export default () => {
 
   return (
     <aside>
+      <div className="title">Zoom & pan transform</div>
+      <div className="transform">
+        [{transform[0].toFixed(2)}, {transform[1].toFixed(2)}, {transform[2].toFixed(2)}]
+      </div>
       <div className="description">Напишите название компартмента.</div>
       <div>
         <label htmlFor="text">Имя:</label>
