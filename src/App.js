@@ -76,7 +76,7 @@ const App = () => {
         data: {
           name,
           counts_handles: {
-            'handle_in': 2,
+            'handle_in': 1,
             'handle_out': 2,
           }
         },
@@ -113,7 +113,7 @@ const App = () => {
       console.log("hey im clicked!", node.data.name);
       setProporties({
         id: node.id,
-        node_name: node.data.name,
+        node_data: node.data,
       });
     },
     [setProporties],

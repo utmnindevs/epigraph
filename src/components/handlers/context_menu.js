@@ -46,7 +46,7 @@ export function ContextMenu({
 
 export function ContextProportiesMenu({
   id,
-  node_name,
+  node_data,
   ...props
 }) {
 
@@ -59,9 +59,9 @@ export function ContextProportiesMenu({
         <small>Выбранный компартмент: 
           <hr></hr>
         <div className="context-proporites-body">
-          <p>Название: <b>{node_name}</b></p>
-          <p>Кол-во входных: <b>0</b></p>
-          <p>Кол-во выходных: <b>0</b></p>
+          <p>Название: <b>{node_data.name}</b></p>
+          <p>Кол-во входных: <b>{node_data.counts_handles['handle_in']}</b></p>
+          <p>Кол-во выходных: <b>{node_data.counts_handles['handle_out']}</b></p>
 
         </div>
         </small>
