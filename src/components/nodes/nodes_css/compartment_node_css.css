@@ -1,7 +1,53 @@
-.compartment{
-    height: fit-content;
-    border: 1px solid #eee;
-    padding: 5px;
-    border-radius: 5px;
-    background: white;
-  }
+.compartment_header {
+  padding: 5px;
+  height: fit-content;
+  border-bottom: 1px solid #000000;
+  text-align: center;
+  background-color: rgb(135, 206, 235);
+  color: white;
+}
+
+.compartment_body {
+  flex-direction: row;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+
+.compartment_inhandles {
+  padding: 5px;
+  width: fit-content;
+  height: fit-content;
+}
+
+.compartment_outhandles {
+  padding: 5px;
+  width: fit-content;
+  height: fit-content;
+}
+
+.Node {
+  border: 1px solid black;
+  border-radius: 2px;
+  background-color: rgb(159, 191, 187, 0.7);
+}
+
+.compartment-node__in-handles {
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  height: 15px;
+  font-size: 10px;
+}
+
+
+.compartment-node__out-handles {
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  height: 15px;
+  font-size: 10px;
+}

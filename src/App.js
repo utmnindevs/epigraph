@@ -58,12 +58,12 @@ const App = () => {
       var parse_node_data = JSON.parse(node_data);
       var type = parse_node_data.type;
       var name = parse_node_data.name;
-      
 
-      if (typeof type  === 'undefined' || !type) {
+
+      if (typeof type === 'undefined' || !type) {
         return;
       }
-      
+
 
       const position = reactFlowInstance.screenToFlowPosition({
         x: event.clientX,
@@ -73,7 +73,13 @@ const App = () => {
         id: getId(),
         type,
         position,
-        data: { name },
+        data: {
+          name,
+          counts_handles: {
+            'handle_in': 2,
+            'handle_out': 2,
+          }
+        },
       };
 
       setNodes((nds) => nds.concat(newNode));
@@ -157,7 +163,7 @@ const App = () => {
    
       
     </div></>
-      
+
 
 
   );
