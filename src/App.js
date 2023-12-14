@@ -103,33 +103,6 @@ const App = () => {
   );
 
 
-  const onDownloadJson = useCallback(() => {
-    const saveStateAndDownload = async() => {
-      if(reactFlowInstance){
-        localStorage.setItem("nodes", JSON.stringify(reactFlowInstance.getNodes()));
-
-
-        const nodes = JSON.parse(localStorage.getItem("nodes")) || [];
-        var compartments_nodes = CompartmentsToJsonFormat(nodes);
-
-        const element = document.createElement("a");
-        const textFile = new Blob(["{\"Compartments\": [" + compartments_nodes.join(",") + "]}"], {type: 'application/json'}); //так плохо делать, но пока костыльно
-        element.href = URL.createObjectURL(textFile);
-        element.download = document.getElementById("title_filename").innerHTML + ".json"; 
-        document.body.appendChild(element); 
-        element.click();
-      }
-      
-
-      //api needed here
-    };
-
-    saveStateAndDownload();
-    // console.log(FormattingJsonCompartment(JSON.parse(localStorage.getItem("nodes"))[0]));
-
-  })
-
-
   const onNodeContextMenu = useCallback(
     (event, node) => {
       event.preventDefault();
@@ -167,7 +140,7 @@ const App = () => {
 
   return (
     <><div className="app-container"> {/* Можно добавить стили для основного контейнера */}
-      <Header />
+      <Header rfInstance={reactFlowInstance} />
       
       
       {<div className="providerflow">
@@ -200,10 +173,7 @@ const App = () => {
 
             {menu && <Contexts.ContextMenu onClick={onPaneClick} {...menu} />}
 
-            <Panel position="top-right">
-                <button onClick={onDownloadJson}>Скачать как json</button>
-
-              </Panel>
+            
           </ReactFlow>
         </div>
         <Sidebar />

@@ -3,10 +3,10 @@ import React from 'react';
 import UpperMenu from './UpperMenu';
 import LowerMenu from './LowerMenu';
 
-const Header = () => {
+const Header = ({rfInstance}) => {
   return (
     <header>
-      <UpperMenu />
+      <UpperMenu rfInstance = {rfInstance}/>
       <LowerMenu />
     </header>
   );
