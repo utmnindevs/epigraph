@@ -29,7 +29,7 @@
   height: fit-content;
 }
 
-.Node {
+.compartment-node {
   border: 1px solid black;
   border-radius: 2px;
   background-color: rgb(159, 191, 187, 0.7);

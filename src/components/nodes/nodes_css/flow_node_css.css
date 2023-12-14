@@ -1,0 +1,47 @@
+.flow_header {
+    padding: 5px;
+    height: fit-content;
+    border-bottom: 1px solid #000000;
+    text-align: center;
+    background-color: rgb(173, 173, 171);
+    color: white;
+  }
+  
+  .flow_body {
+    flex-direction: row;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+  
+  
+  .flow_outhandles {
+    padding: 5px;
+    width: fit-content;
+    height: fit-content;
+  }
+  
+  .flow-node {
+    border: 1px solid black;
+    border-radius: 2px;
+    background-color: rgb(159, 191, 187, 0.7);
+  }
+  
+  .flow-node__in-handles {
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 15px;
+    font-size: 10px;
+  }
+  
+  
+  .flow-node__out-handles {
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 15px;
+    font-size: 10px;
+  }

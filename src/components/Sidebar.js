@@ -54,8 +54,11 @@ export default () => {
         <input id="comparment_input_text"  onKeyDown={(event) => onEnterPressed(event)} maxlength="20" onChange={(event) => onCheckSymbolsandNum(event)}/> 
         {/* TODO: нужна реакция на Enter. */}
       </div>
-      <div className="dndnode compartmentNode" onDragStart={(event) => onDragStart(event, 'compartmentNode', compartment_name)} draggable>
+      <div className="compartmentNode" onDragStart={(event) => onDragStart(event, 'compartmentNode', compartment_name)} draggable>
         Compartment node
+      </div>
+      <div className="dndnode flowNode" onDragStart={(event) => onDragStart(event, 'flowNode', compartment_name)} draggable>
+        Flow node
       </div>
     </aside>
   );
