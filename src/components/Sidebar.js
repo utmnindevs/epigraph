@@ -19,7 +19,6 @@ export default () => {
   };
 
   var compartment_name = "Безымянный";
-  
 
   const onEnterPressed = (event) => {
     const hasSpecialCharacters = /[!@#$%^&*(),.?":{}|<>]/.test(event.target.value)

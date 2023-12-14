@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import './header_css/UpperMenu.css';
 
 const UpperMenu = () => {
-  const [fileName, setFileName] = useState("Название вашего файла");
+  const [fileName, setFileName] = useState("Untitled");
 
   const handleFileNameChange = (event) => {
     setFileName(event.target.innerText);
@@ -13,7 +13,7 @@ const UpperMenu = () => {
     <div className="upper-menu">
       <div className="logo-and-file">
         <img src="Graph_Report.svg" alt="Logo" />
-        <h1
+        <h1 id='title_filename'
           contentEditable
           onBlur={handleFileNameChange}
           suppressContentEditableWarning={true}

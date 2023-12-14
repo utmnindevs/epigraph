@@ -9,7 +9,7 @@ function FormattingJsonCompartment(json_compartment){
     compartment.id = json_compartment["id"];
     compartment.position = json_compartment["position"]
     compartment.name = json_compartment["data"]["name"]
-    compartment.population = json_compartment["data"]["popolation"]
+    compartment.population = json_compartment["data"]["population"]
     return JSON.stringify(compartment);
 }
 
