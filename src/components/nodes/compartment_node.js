@@ -43,7 +43,7 @@ function CompartmentNode({ data }) {
 
   return (
     <>
-      <div className="Node">
+      <div className="compartment-node">
         <div className="compartment_header">
           <label htmlFor="text"> <strong>{data.name}</strong></label>
 

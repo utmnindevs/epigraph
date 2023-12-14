@@ -19,6 +19,7 @@ import 'reactflow/dist/style.css';
 
 import Sidebar from './components/Sidebar';
 import CompartmentNode from './components/nodes/compartment_node';
+import FlowNode from './components/nodes/flow_node';
 
 import * as Contexts from './components/handlers/context_menu';
 
@@ -28,10 +29,12 @@ import './reactflow-workflow.css'
 
 import CompartmentsToJsonFormat from "./helpers/export_json"
 
-let id = 0;
-const getCompartmentId = () => `compartment_${id++}`;
+let comp_id = 0;
+let flow_id = 0;
+const getCompartmentId = () => `compartment_${comp_id++}`;
+const getFlowId = () => `flow_${flow_id++}`;
 
-const nodeTypes = { compartmentNode: CompartmentNode };
+const nodeTypes = { compartmentNode: CompartmentNode, flowNode: FlowNode };
 
 const App = () => {
 
@@ -68,36 +71,54 @@ const App = () => {
       var type = parse_node_data.type;
       var name = parse_node_data.name;
 
+      console.log(type);
 
       if (typeof type === 'undefined' || !type) {
         return;
       }
-
-
       const position = reactFlowInstance.screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
       });
-      const newNode = {
-        id: getCompartmentId(),
-        type,
-        position,
-        data: {
-          name,
-          counts_handles: {
-            'handle_in': 1,
-            'handle_out': 2,
-          }, 
-          population: 0,
-        },
-      };
 
 
-      console.log(JSON.stringify(newNode));
-      
-      setNodes((nds) => nds.concat(newNode));
+      if(type === 'compartmentNode'){
+        const newCompartment = {
+          id: getCompartmentId(),
+          type,
+          position,
+          data: {
+            name,
+            counts_handles: {
+              'handle_in': 1,
+              'handle_out': 2,
+            }, 
+            population: 0,
+          },
+        };
+        setNodes((nds) => nds.concat(newCompartment));
+        return;
+      }
 
-      
+      if(type === 'flowNode'){
+        const newFlow = {
+          id: getFlowId(),
+          type,
+          position,
+          data: {
+            name,
+            counts_handles: {
+              'handle_out': 2,
+            }, 
+            coef: 0,
+            target: "I",
+            source: "S"
+          },
+        };
+        setNodes((nds) => nds.concat(newFlow));
+        return;
+      }
+
     },
     [reactFlowInstance],
   );
@@ -151,14 +172,17 @@ const App = () => {
 
   const onNodeClick = useCallback(
     (event, node) => {
-      event.preventDefault();
-      console.log("hey im clicked!", node.data.name);
-      setProporties({
-        id: node.id,
-        node_data: node.data,
-        nodes: nodes,
-        setNodes: setNodes,
-      });
+      if(node.type === 'compartmentNode' ){
+        event.preventDefault();
+        console.log("hey im clicked!", node.data.name);
+        setProporties({
+          id: node.id,
+          node_data: node.data,
+          nodes: nodes,
+          setNodes: setNodes,
+        });
+      }
+      
     },
     [setProporties],
   )
