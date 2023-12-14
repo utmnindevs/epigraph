@@ -2,9 +2,14 @@
 import React, { useState, useRef, useCallback } from 'react';
 import './header_css/UpperMenu.css';
 import CompartmentsToJsonFormat from "../helpers/export_json"
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 
-const UpperMenu = ({rfInstance}) => {
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+const UpperMenu = ({ rfInstance }) => {
   const [fileName, setFileName] = useState("Untitled");
 
   const handleFileNameChange = (event) => {
@@ -12,8 +17,8 @@ const UpperMenu = ({rfInstance}) => {
   };
 
   const onDownloadJson = useCallback(() => {
-    const saveStateAndDownload = async() => {
-      if(rfInstance){
+    const saveStateAndDownload = async () => {
+      if (rfInstance) {
         localStorage.setItem("nodes", JSON.stringify(rfInstance.getNodes()));
 
 
@@ -21,13 +26,13 @@ const UpperMenu = ({rfInstance}) => {
         var compartments_nodes = CompartmentsToJsonFormat(nodes);
 
         const element = document.createElement("a");
-        const textFile = new Blob(["{\"Compartments\": [" + compartments_nodes.join(",") + "]}"], {type: 'application/json'}); //так плохо делать, но пока костыльно
+        const textFile = new Blob(["{\"Compartments\": [" + compartments_nodes.join(",") + "]}"], { type: 'application/json' }); //так плохо делать, но пока костыльно
         element.href = URL.createObjectURL(textFile);
-        element.download = document.getElementById("title_filename").innerHTML + ".json"; 
-        document.body.appendChild(element); 
+        element.download = document.getElementById("title_filename").innerHTML + ".json";
+        document.body.appendChild(element);
         element.click();
       }
-      
+
 
       //api needed here
     };
@@ -36,6 +41,53 @@ const UpperMenu = ({rfInstance}) => {
     // console.log(FormattingJsonCompartment(JSON.parse(localStorage.getItem("nodes"))[0]));
 
   })
+
+
+  function FileMenuDropDown(params) {
+    return (
+      <Dropdown>
+      <Dropdown.Toggle as={CustomToggle}  id="dropdown-custom-components">
+        {params.name}
+      </Dropdown.Toggle>
+  
+      <Dropdown.Menu>
+        <Dropdown.Item onClick={onDownloadJson}>Экспорт JSON</Dropdown.Item>
+  
+      </Dropdown.Menu>
+    </Dropdown>
+    );
+  }
+
+  function AboutMenuDropDown(params) {
+    return (
+      <Dropdown>
+      <Dropdown.Toggle as={CustomToggle}  id="dropdown-custom-components">
+        {params.name}
+      </Dropdown.Toggle>
+  
+      <Dropdown.Menu>
+        <Dropdown.Item>Тут могла быть ваша реклама</Dropdown.Item>
+  
+      </Dropdown.Menu>
+    </Dropdown>
+    );
+  }
+
+  function EditMenuDropDown(params) {
+    return (
+      <Dropdown>
+      <Dropdown.Toggle as={CustomToggle}  id="dropdown-custom-components">
+        {params.name}
+      </Dropdown.Toggle>
+  
+      <Dropdown.Menu>
+        <Dropdown.Item>Лос пенгвинос маласе ласкаре</Dropdown.Item>
+  
+      </Dropdown.Menu>
+    </Dropdown>
+    );
+  }
+  
 
   return (
     <div className="upper-menu">
@@ -49,13 +101,29 @@ const UpperMenu = ({rfInstance}) => {
           {fileName}
         </h1>
       </div>
-      <div className="header-buttons">
-      <button onClick={onDownloadJson}>Файл</button>
-        <button>Правка</button>
-        <button>Справка</button>
+      <div className="header-buttons" >
+
+        <FileMenuDropDown className="hdr-button" name={'Файл'}/>
+        <EditMenuDropDown className="hdr-button" name={'Правка'}/>
+        <AboutMenuDropDown className="hdr-button" name={'Справка'}/>
+
       </div>
-    </div>
+    </div >
   );
 };
+
+const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+  <button
+    href=""
+    ref={ref}
+    onClick={(e) => {
+      e.preventDefault();
+      onClick(e);
+    }}
+  >
+    {children}
+  </button>
+));
+
 
 export default UpperMenu;

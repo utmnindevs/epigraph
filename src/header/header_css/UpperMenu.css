@@ -1,10 +1,13 @@
 /* UpperMenu.css */
+
+
+
 .upper-menu {
     display: flex;
     flex-direction: column; /* Размещаем элементы вертикально */
     align-items: flex-start; /* Выравниваем элементы к правому краю */
     background-color: #fefefe;
-    color: #000000;
+    color: hsl(0, 0%, 0%);
     padding: 5px;
     border-bottom: px solid #ddd;
    
@@ -24,6 +27,8 @@
   .header-buttons {
     margin-left: 60px;
     transition-duration: 0.4s;
+    display: flex;
+
   }
 
   .header-buttons button {
