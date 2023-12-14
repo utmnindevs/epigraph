@@ -1,6 +1,6 @@
 // App.js
 
-import Header from './Header';
+import Header from './header/Header';
 
 import React, { useState, useRef, useCallback } from 'react';
 
