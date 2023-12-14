@@ -1,6 +1,8 @@
 import { useCallback } from 'react';
 import { Handle, Position } from 'reactflow';
 
+import Card from 'react-bootstrap/Card';
+
 import './nodes_css/compartment_node_css.css'
 
 const handleStyle = { left: 10 };
@@ -43,12 +45,28 @@ function CompartmentNode({ data }) {
 
   return (
     <>
+    <Card >
       <div className="compartment-node">
         <div className="compartment_header">
-          <label htmlFor="text"> <strong>{data.name}</strong></label>
+        <div className='compartment_upper'>
+          <img className='compartment_img' src="Graph_Report.svg" alt="Logo" />
 
+          Компартмент: {data.name.slice(0,1).toUpperCase()}
+          
+          </div>
+          <div className='compartment_name'>
+            <label htmlFor="text"> {data.name}</label>
+            
+          </div>
+        
         </div>
+
+        
+
         <div className="compartment_body">
+
+          
+
           <div className="compartment_inhandles">
             {Array.from({ length: data.counts_handles['handle_in'] }, (_, i) => {
               const handleId = `in_${i}`;
@@ -69,6 +87,7 @@ function CompartmentNode({ data }) {
           </div>
         </div>
       </div>
+      </Card>
 
 
     </>
