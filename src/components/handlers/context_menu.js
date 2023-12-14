@@ -62,7 +62,10 @@ export function ContextProportiesMenu({
           <p>Название: <b>{node_data.name}</b></p>
           <p>Кол-во входных: <b>{node_data.counts_handles['handle_in']}</b></p>
           <p>Кол-во выходных: <b>{node_data.counts_handles['handle_out']}</b></p>
-
+          <div>
+            <label htmlFor="text">Кол-во входных:</label>
+            <input type='text' id="proporties_input" value={node_data.counts_handles['handle_in']}/> 
+          </div>
         </div>
         </small>
       </p>
