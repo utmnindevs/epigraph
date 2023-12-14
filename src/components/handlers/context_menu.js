@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import ReactFlow, { useNodesState, useEdgesState } from 'reactflow';
 import { useReactFlow } from 'reactflow';
 
 import "./context_menu.css"
@@ -47,9 +48,33 @@ export function ContextMenu({
 export function ContextProportiesMenu({
   id,
   node_data,
+  nodes,
+  setNodes,
   ...props
 }) {
 
+  const [nodeName, setNodeName] = useState(node_data.name);
+  const [nodeIns, setNodeIns] = useState(node_data.counts_handles['handle_in']);
+  const [nodeOuts, setNodeOuts] = useState(node_data.counts_handles['handle_out']);
+  const [nodePopulation, setNodePopulation] = useState(node_data.population);
+
+  useEffect(() => {
+    setNodes((nds) =>
+      nds.map((node) => {
+        if (node.id === id) {
+          node.data = {
+            ...node.data,
+            name: nodeName,
+            counts_handles: {'handle_in': nodeIns, 'handle_out': nodeOuts},
+            population: nodePopulation,
+          };
+        }
+
+        return node;
+      })
+    );
+  }, [nodeName, nodeIns, nodePopulation, nodeOuts, setNodes]);
+  
   return (
     <div
       className="context-proporties-menu"
@@ -58,14 +83,20 @@ export function ContextProportiesMenu({
       <p style={{ margin: '0.5em' }}>
         <small>Выбранный компартмент: 
           <hr></hr>
-        <div className="context-proporites-body">
-          <p>Название: <b>{node_data.name}</b></p>
-          <p>Кол-во входных: <b>{node_data.counts_handles['handle_in']}</b></p>
-          <p>Кол-во выходных: <b>{node_data.counts_handles['handle_out']}</b></p>
-          <div>
-            <label htmlFor="text">Кол-во входных:</label>
-            <input type='text' id="proporties_input" value={node_data.counts_handles['handle_in']}/> 
-          </div>
+          
+
+        <div className="context-proporties-menu">
+          <label>name:</label>
+          <input type='text' id="input_nodename" defaultValue={node_data.name} onChange={(event) => setNodeName(event.target.value)}></input>
+
+          <label>ins:</label>
+          <input type='number' id="input_nodename" defaultValue={node_data.counts_handles['handle_in']} onChange={(event) => setNodeIns(event.target.value)}></input>
+
+          <label>outs:</label>
+          <input type='number' id="input_nodename" defaultValue={node_data.counts_handles['handle_out']} onChange={(event) => setNodeOuts(event.target.value)}></input>
+
+          <label>population:</label>
+          <input type='number' id="input_nodename" defaultValue={node_data.population} onChange={(event) => setNodePopulation(event.target.value)}></input>
         </div>
         </small>
       </p>

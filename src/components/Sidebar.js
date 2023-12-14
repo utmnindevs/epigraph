@@ -18,7 +18,7 @@ export default () => {
     event.dataTransfer.effectAllowed = 'move';
   };
 
-  var compartment_name = "Безымянный";
+  var compartment_name = "Undefined";
 
   const onEnterPressed = (event) => {
     if (event.key === 'Enter') {

@@ -115,7 +115,7 @@ const App = () => {
         const element = document.createElement("a");
         const textFile = new Blob(["{\"Compartments\": [" + compartments_nodes.join(",") + "]}"], {type: 'application/json'}); //так плохо делать, но пока костыльно
         element.href = URL.createObjectURL(textFile);
-        element.download = "nameofdocument.json";
+        element.download = document.getElementById("title_filename").innerHTML + ".json"; 
         document.body.appendChild(element); 
         element.click();
       }
@@ -156,6 +156,8 @@ const App = () => {
       setProporties({
         id: node.id,
         node_data: node.data,
+        nodes: nodes,
+        setNodes: setNodes,
       });
     },
     [setProporties],
