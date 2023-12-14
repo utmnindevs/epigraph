@@ -14,12 +14,9 @@ function LeftHandler({ handleId, iId }) {
         <div>{handleId}</div>
         <Handle type="target" position={Position.Left} id={handleId} style={{ top: 20 * iId + 50 }} isConnectable={1} />
       </div>
-
     </>
   );
-
 }
-
 
 function RightHandler({ handleId, iId }) {
 
@@ -41,6 +38,7 @@ function CompartmentNode({ data }) {
     console.log(evt.target.value);
   }, []);
   // console.log(data.counts_in);
+
 
 
   return (

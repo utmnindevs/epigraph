@@ -12,7 +12,9 @@ import ReactFlow, {
   Controls,
   MiniMap,
   Background,
+  Panel,
 } from 'reactflow';
+import ReactFlowJsonObject from 'reactflow';
 import 'reactflow/dist/style.css';
 
 import Sidebar from './components/Sidebar';
@@ -23,8 +25,11 @@ import * as Contexts from './components/handlers/context_menu';
 import './index.css';
 import './reactflow-workflow.css'
 
+
+import CompartmentsToJsonFormat from "./helpers/export_json"
+
 let id = 0;
-const getId = () => `dndnode_${id++}`;
+const getCompartmentId = () => `compartment_${id++}`;
 
 const nodeTypes = { compartmentNode: CompartmentNode };
 
@@ -33,6 +38,8 @@ const App = () => {
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+  const [rfInstance, setRfInstance] = useState(null); //to save
 
   const [menu, setMenu] = useState(null);
   const [proporties, setProporties] = useState(null);
@@ -44,6 +51,8 @@ const App = () => {
     (params) => setEdges((eds) => addEdge(params, eds)),
     [],
   );
+
+  localStorage.clear(); // get api to server get current user and load data if exist
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
@@ -70,7 +79,7 @@ const App = () => {
         y: event.clientY,
       });
       const newNode = {
-        id: getId(),
+        id: getCompartmentId(),
         type,
         position,
         data: {
@@ -78,14 +87,47 @@ const App = () => {
           counts_handles: {
             'handle_in': 1,
             'handle_out': 2,
-          }
+          }, 
+          population: 0,
         },
       };
 
+
+      console.log(JSON.stringify(newNode));
+      
       setNodes((nds) => nds.concat(newNode));
+
+      
     },
     [reactFlowInstance],
   );
+
+
+  const onDownloadJson = useCallback(() => {
+    const saveStateAndDownload = async() => {
+      if(reactFlowInstance){
+        localStorage.setItem("nodes", JSON.stringify(reactFlowInstance.getNodes()));
+
+
+        const nodes = JSON.parse(localStorage.getItem("nodes")) || [];
+        var compartments_nodes = CompartmentsToJsonFormat(nodes);
+
+        const element = document.createElement("a");
+        const textFile = new Blob(["{\"Compartments\": [" + compartments_nodes.join(",") + "]}"], {type: 'application/json'}); //так плохо делать, но пока костыльно
+        element.href = URL.createObjectURL(textFile);
+        element.download = "nameofdocument.json";
+        document.body.appendChild(element); 
+        element.click();
+      }
+      
+
+      //api needed here
+    };
+
+    saveStateAndDownload();
+    // console.log(FormattingJsonCompartment(JSON.parse(localStorage.getItem("nodes"))[0]));
+
+  })
 
 
   const onNodeContextMenu = useCallback(
@@ -128,6 +170,8 @@ const App = () => {
       
       {<div className="providerflow">
       <ReactFlowProvider>
+      {proporties && <Contexts.ContextProportiesMenu {...proporties} />}
+
         <div className="reactflow-wrapper" ref={reactFlowWrapper}>
           <ReactFlow
             nodes={nodes}
@@ -153,10 +197,14 @@ const App = () => {
             <Background variant="dots" gap={12} size={0.8} />
 
             {menu && <Contexts.ContextMenu onClick={onPaneClick} {...menu} />}
+
+            <Panel position="top-right">
+                <button onClick={onDownloadJson}>Скачать как json</button>
+
+              </Panel>
           </ReactFlow>
         </div>
         <Sidebar />
-        {proporties && <Contexts.ContextProportiesMenu {...proporties} />}
         
       </ReactFlowProvider>
     </div>}
