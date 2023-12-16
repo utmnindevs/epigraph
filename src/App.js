@@ -21,6 +21,8 @@ import Sidebar from './components/Sidebar';
 import CompartmentNode from './components/nodes/compartment_node';
 import FlowNode from './components/nodes/flow_node';
 
+import CompartmentFlowEdge from './components/edges/compartmentFlowEdge';
+
 import * as Contexts from './components/handlers/context_menu';
 
 import './index.css';
@@ -28,6 +30,12 @@ import './reactflow-workflow.css'
 
 
 import CompartmentsToJsonFormat from "./helpers/export_json"
+
+const edgeTypes = {
+  compartmentFlowEdge: CompartmentFlowEdge,
+};
+
+
 
 let comp_id = 0;
 let flow_id = 0;
@@ -51,7 +59,7 @@ const App = () => {
   const ref = useRef(null);
 
   const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
+    (params) => setEdges((eds) => addEdge({...params, type:'compartmentFlowEdge'}, eds)),
     [],
   );
 
@@ -70,7 +78,8 @@ const App = () => {
       var parse_node_data = JSON.parse(node_data);
       var type = parse_node_data.type;
       var name = parse_node_data.name;
-
+      
+      
       console.log(type);
 
       if (typeof type === 'undefined' || !type) {
@@ -108,11 +117,18 @@ const App = () => {
           data: {
             name,
             counts_handles: {
+              'handle_in': 1,
               'handle_out': 2,
             }, 
-            coef: 0,
-            target: "I",
-            source: "S"
+            sfactor: {
+              "name": "β",
+              "value": 0.1,
+            },
+            target: {
+              "names": ['out_0','out_1'],
+              "coefs": [0.4, 0.6]
+            },
+            source: "in_0"
           },
         };
         setNodes((nds) => nds.concat(newFlow));
@@ -145,7 +161,7 @@ const App = () => {
 
   const onNodeClick = useCallback(
     (event, node) => {
-      if(node.type === 'compartmentNode' ){
+      if(node.type === 'compartmentNode' || 'flowNode' ){
         event.preventDefault();
         console.log("hey im clicked!", node.data.name);
         setProporties({
@@ -184,6 +200,7 @@ const App = () => {
             onInit={setReactFlowInstance}
             onDrop={onDrop}
             nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
             onDragOver={onDragOver}
 
             onNodeClick={onNodeClick}

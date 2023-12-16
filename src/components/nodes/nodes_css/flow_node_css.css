@@ -15,7 +15,12 @@
     flex-wrap: nowrap;
     justify-content: space-between;
   }
-  
+
+  .flow_inhandles {
+    padding: 5px;
+    width: fit-content;
+    height: fit-content;
+  }
   
   .flow_outhandles {
     padding: 5px;
@@ -45,3 +50,5 @@
     height: 15px;
     font-size: 10px;
   }
+
+  

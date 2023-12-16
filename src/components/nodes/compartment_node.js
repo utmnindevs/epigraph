@@ -1,5 +1,5 @@
-import { useCallback } from 'react';
-import { Handle, Position } from 'reactflow';
+import { useCallback, useState } from 'react';
+import { Handle, Position, useUpdateNodeInternals } from 'reactflow';
 
 import Card from 'react-bootstrap/Card';
 
@@ -40,7 +40,6 @@ function CompartmentNode({ data }) {
     console.log(evt.target.value);
   }, []);
   // console.log(data.counts_in);
-
 
 
   return (
