@@ -29,7 +29,6 @@ import './index.css';
 import './reactflow-workflow.css'
 
 
-import CompartmentsToJsonFormat from "./helpers/export_json"
 
 const edgeTypes = {
   compartmentFlowEdge: CompartmentFlowEdge,

@@ -1,7 +1,6 @@
 // UpperMenu.js
 import React, { useState, useRef, useCallback } from 'react';
 import './header_css/UpperMenu.css';
-import CompartmentsToJsonFormat from "../helpers/export_json"
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
