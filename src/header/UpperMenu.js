@@ -21,24 +21,29 @@ const UpperMenu = ({ rfInstance }) => {
       if (rfInstance) {
         localStorage.setItem("nodes", JSON.stringify(rfInstance.getNodes()));
 
+        console.log(localStorage.getItem("nodes"));
 
-        const nodes = JSON.parse(localStorage.getItem("nodes")) || [];
-        var compartments_nodes = CompartmentsToJsonFormat(nodes);
-
-        const element = document.createElement("a");
-        const textFile = new Blob(["{\"Compartments\": [" + compartments_nodes.join(",") + "]}"], { type: 'application/json' }); //так плохо делать, но пока костыльно
-        element.href = URL.createObjectURL(textFile);
-        element.download = document.getElementById("title_filename").innerHTML + ".json";
-        document.body.appendChild(element);
-        element.click();
+        fetch('http://127.0.0.1:8000/api/convertToJson', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: localStorage.getItem("nodes"),
+        }).then(res => res.json()).then(response => {
+          console.log(response)
+          const element = document.createElement("a"); 
+          const textFile = new Blob(["{\"Compartments\": [" + JSON.stringify(response) + "]}"], { type: 'application/json' }); //так плохо делать, но пока костыльно 
+          element.href = URL.createObjectURL(textFile); 
+          element.download = document.getElementById("title_filename").innerHTML + ".json"; 
+          document.body.appendChild(element); 
+          element.click(); 
+        })
+        .catch(error => console.error('Error: ', error));
       }
-
-
-      //api needed here
     };
 
     saveStateAndDownload();
-    // console.log(FormattingJsonCompartment(JSON.parse(localStorage.getItem("nodes"))[0]));
 
   })
 
